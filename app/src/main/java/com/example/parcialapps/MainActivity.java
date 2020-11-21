@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -26,29 +27,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-       /* ToggleButton toggle = (ToggleButton) findViewById(R.id.togglebutton);
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.togglebutton);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    Toast.makeText(MainActivity.this,"Que suerte!",Toast.LENGTH_LONG).show();
                 } else {
-
+                    Toast.makeText(MainActivity.this,"Ya lo visitarás!",Toast.LENGTH_LONG).show();
                 }
             }
-        });*/
+        });
         toggle = (ToggleButton) findViewById(R.id.togglebutton);
-        boton = findViewById(R.id.button)
+        boton = findViewById(R.id.button);
         lugarFavorito = findViewById(R.id.editText);
 
-        List<String> listaLugares = new ArrayList<String>();
-        String lugar = lugarFavorito.getText();
-        listaLugares.add((String)lugarFavorito.getText());
+        List<String> listaLugares;
+        listaLugares = new ArrayList<String>();
+
+        String lugar = lugarFavorito.getText().toString();
+        listaLugares.add(lugar);
 
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(this, MapaActivity.class);
-                i.putExtra("lugares", listaLugares);
+                Intent i = new Intent(getApplicationContext(), MapaActivity.class);
+                i.putStringArrayListExtra("lugares", (ArrayList<String>) listaLugares);
                 startActivity(i);
             }
         });

@@ -9,6 +9,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 /*import com.google.android.gms.maps.GoogleMap;
@@ -17,16 +23,18 @@ import com.google.android.gms.maps.SupportMapFragment;*/
 
 public class MapaActivity extends FragmentActivity implements OnMapReadyCallback {//extends AppCompatActivity {
     private GoogleMap mMap;
-
+    private ArrayList<String> lugares;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
-        List<String> lugares = new ArrayList<String>();
+
+
         Intent in= getIntent();
         Bundle b = in.getExtras();
         if(b!=null)
         {
+            lugares = getIntent().getStringArrayListExtra("test");
             String j =(String) b.get("lugares");
             lugares.add(j);
         }
@@ -36,7 +44,6 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
     }
-
 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -52,7 +59,10 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                     9999);
             return;
         }
-        //mMap.setMyLocationEnabled(true);
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(-31.620816, -60.747582))
+                .title("Tu lugar elegido +  lugares.get(0)")
+                .snippet(lugares.get(0)));
     }
 
     @Override
@@ -63,11 +73,10 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 if (grantResults.length > 0 && grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED) {
                     actualizarMapa();
-                } else { // }
-                    return;
                 }
             }
         }
+    }
 
 
 }
